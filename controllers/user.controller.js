@@ -53,9 +53,9 @@ module.exports = {
     try {
       const { password, email } = req.body;
 
-      // joiHelper(validateUser, req.body);
-      // if (!req?.file)
-      //   return res.status(400).json({ message: "Please Select Profile Image" });
+      joiHelper(validateUser, req.body);
+      if (!req?.file)
+        return res.status(400).json({ message: "Please Select Profile Image" });
 
       const user = await User.findOne({ email });
       if (user)
@@ -63,10 +63,10 @@ module.exports = {
           message: "Email already exist",
         });
 
-      // const { secure_url } = await cloudinary(
-      //   bufferConversion(req.file.originalname, req.file.buffer)
-      // );
-      // req.body.avatar = secure_url;
+      const { secure_url } = await cloudinary(
+        bufferConversion(req.file.originalname, req.file.buffer)
+      );
+      req.body.avatar = secure_url;
       req.body.password = await bcrypt.hash(password, 10);
       await User.create(req.body);
       res.status(201).json({
