@@ -1,15 +1,19 @@
-const express = require('express')
-const app = express()
-const { PORT, MONGO_URI } = require('./config')
+const express = require("express");
+const app = express();
+const { PORT, MONGO_URI } = require("./config");
 //MIDDILWARES
-require('./middleware/server.middlewares')(app, express)
+require("./middleware/server.middlewares")(app, express);
 //start
-require('./start/db')(MONGO_URI)
-require('./start/routes')(app, express)
+require("./start/db")(MONGO_URI);
+require("./start/routes")(app, express);
+
+app.get("/", (req, res) => {
+  res.send("Hello World");
+});
 //starting server
-require('http')
+require("http")
   .createServer(app)
   .listen(PORT, () => {
-    console.clear()
-    console.log(`Listening at port ${PORT}`)
-  })
+    console.clear();
+    console.log(`Listening at port ${PORT}`);
+  });
