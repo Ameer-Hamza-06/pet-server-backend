@@ -7,9 +7,6 @@ require("./middleware/server.middlewares")(app, express);
 require("./start/db")(MONGO_URI);
 require("./start/routes")(app, express);
 
-app.get("/", (req, res) => {
-  res.send("Hello World");
-});
 //starting server
 require("http")
   .createServer(app)

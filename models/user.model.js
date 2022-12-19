@@ -1,4 +1,4 @@
-const { Schema, model } = require('mongoose')
+const { Schema, model } = require("mongoose");
 
 const userSchema = new Schema({
   username: {
@@ -12,11 +12,18 @@ const userSchema = new Schema({
   avatar: { type: String, default: null },
   phone_number: { type: String, length: 11 },
   address: { type: String, required: true },
+  role: {
+    type: String,
+    enum: ["user", "vet"],
+    default: "user",
+    required: true,
+  },
+  clinic_name: { type: String },
   pets: {
     type: [Schema.Types.ObjectId],
     default: [],
-    ref: 'pet',
+    ref: "pet",
   },
-})
+});
 
-module.exports = model('user', userSchema)
+module.exports = model("user", userSchema);
