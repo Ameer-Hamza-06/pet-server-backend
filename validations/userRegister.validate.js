@@ -7,7 +7,7 @@ module.exports = function (data) {
     phone_number: Joi.string().length(11).required(),
     address: Joi.string().required(),
     role: Joi.string().required(),
-    clinic_name: Joi.string().required(),
+    clinic_name: Joi.string(),
   });
   return schema.validate(data);
 };
