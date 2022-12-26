@@ -1,4 +1,4 @@
-const { Schema, model } = require('mongoose')
+const { Schema, model } = require("mongoose");
 
 const foodSchema = new Schema({
   name: { type: String },
@@ -6,7 +6,7 @@ const foodSchema = new Schema({
   price: { type: Number, min: 1 },
   quantity: { type: Number, min: 1 },
   for_: { type: String },
-})
+});
 
 const acessoriesSchema = new Schema({
   name: { type: String },
@@ -14,7 +14,7 @@ const acessoriesSchema = new Schema({
   price: { type: Number, min: 1 },
   quantity: { type: Number, min: 1 },
   for_: { type: String },
-})
+});
 const petStoreSchema = new Schema({
   name: { type: String },
   address: { type: String },
@@ -22,6 +22,6 @@ const petStoreSchema = new Schema({
   services: [String],
   food: [foodSchema],
   acessorie: [acessoriesSchema],
-})
+});
 
-module.exports = ('petstore', petStoreSchema)
+module.exports = model("petstore", petStoreSchema);
