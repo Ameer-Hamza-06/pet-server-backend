@@ -6,6 +6,7 @@ const { JWT_SECRET } = require("../config");
 //models
 const User = require("../models/user.model");
 const Pet = require("../models/pet.model");
+const Notification = require("../models/notification.model");
 //validatoins
 const validateLogin = require("../validations/login.validation");
 const validateUser = require("../validations/userRegister.validate");
@@ -15,6 +16,7 @@ const joiHelper = require("../helpers/joi.helper");
 const jwtSign = require("../helpers/jwtSign.helper");
 const bufferConversion = require("../helpers/bufferConversion");
 const cloudinary = require("../helpers/cloudinary");
+const { createNotification } = require("./notification.controller");
 
 module.exports = {
   getUsers: async (req, res) => {
@@ -98,7 +100,12 @@ module.exports = {
       req.body.picture = secure_url;
       req.body.postedBy = id;
 
-      await Pet.create(req.body);
+      const { _id, name } = await Pet.create(req.body);
+      createNotification({
+        userId: id,
+        petId: _id,
+        message: `${name.toUpperCase()} added successfully`,
+      });
       res.status(201).json({ message: "Pet added successfully" });
     } catch (error) {
       res.status(400).json({ message: error.message });

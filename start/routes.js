@@ -5,6 +5,7 @@ const petRoutes = require("../routes/pet.routes");
 const productRoutes = require("../routes/product.routes");
 const cartRoutes = require("../routes/cart.routes");
 const diseasesRoutes = require("../routes/diseases.routes");
+const notificationRoutes = require("../routes/notification.routes");
 
 //
 module.exports = function (app, express) {
@@ -15,6 +16,7 @@ module.exports = function (app, express) {
   app.use("/api/product", productRoutes);
   app.use("/api/cart", cartRoutes);
   app.use("/api/disease", diseasesRoutes);
+  app.use("/api/notification", notificationRoutes);
   app.use((req, res, next) => {
     const error = new Error("INVALID ROUTE");
     error.status = 404;
