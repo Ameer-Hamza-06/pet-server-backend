@@ -15,7 +15,7 @@
 
 // module.exports = model('pet', petSchema)
 
-const { Schema, model } = require('mongoose')
+const { Schema, model } = require("mongoose");
 const petSchema = new Schema({
   name: { type: String, required: true },
   breed: { type: String },
@@ -23,13 +23,14 @@ const petSchema = new Schema({
   price: { type: Number, min: 0 },
   discription: { type: String, required: true },
   picture: { type: String, required: true },
-  postedBy: { type: Schema.Types.ObjectId, ref: 'user' },
+  postedBy: { type: Schema.Types.ObjectId, ref: "user" },
   gender: {
     type: String,
-    enum: ['male', 'female'],
-    default: 'male',
+    enum: ["male", "female"],
+    default: "male",
   },
   status: { type: Boolean, default: false },
-})
+  diseaseId: { type: Schema.Types.ObjectId, ref: "diseases" },
+});
 
-module.exports = model('pet', petSchema)
+module.exports = model("pet", petSchema);

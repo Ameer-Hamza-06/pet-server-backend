@@ -6,7 +6,6 @@ const { JWT_SECRET } = require("../config");
 //models
 const User = require("../models/user.model");
 const Pet = require("../models/pet.model");
-const Notification = require("../models/notification.model");
 //validatoins
 const validateLogin = require("../validations/login.validation");
 const validateUser = require("../validations/userRegister.validate");
@@ -100,13 +99,23 @@ module.exports = {
       req.body.picture = secure_url;
       req.body.postedBy = id;
 
-      const { _id, name } = await Pet.create(req.body);
-      createNotification({
-        userId: id,
-        petId: _id,
-        message: `${name.toUpperCase()} added successfully`,
+      Pet.create(req.body).then((response) => {
+        response.populate(
+          { path: "diseaseId", model: "diseases" },
+          function (err, data) {
+            if (err) {
+              res.status(400).json({ message: err?.message });
+            }
+            createNotification({
+              userId: id,
+              petId: data?._id,
+              diseaseId: data?.diseaseId?._id,
+              message: `${req.body?.name?.toUpperCase()} added successfully`,
+            });
+            res.status(201).json({ message: "Pet added successfully", data });
+          }
+        );
       });
-      res.status(201).json({ message: "Pet added successfully" });
     } catch (error) {
       res.status(400).json({ message: error.message });
     }
