@@ -12,7 +12,11 @@ module.exports = {
         .sort({ createdAt: -1 })
         .populate([
           { path: "userId", model: "user" },
-          { path: "petId", model: "pet" },
+          {
+            path: "petId",
+            model: "pet",
+            populate: { path: "diseaseId", model: "diseases" },
+          },
         ]);
       res.status(200).json(notifications);
     } catch (error) {
