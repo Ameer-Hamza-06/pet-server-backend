@@ -1,21 +1,25 @@
-const Pet = require('../models/pet.model')
+const Pet = require("../models/pet.model");
 
 module.exports = {
   getPets: async (req, res) => {
     try {
-      const pets = await Pet.find({ status: false }).populate({
-        path: 'postedBy',
-        select: '-password ',
-      })
+      const pets = await Pet.find({ status: false }).populate([
+        {
+          path: "postedBy",
+          select: "-password ",
+        },
+        {
+          path: "diseaseId",
+          model: "diseases",
+        },
+      ]);
 
       if (!pets.length)
-        return res
-          .status(404)
-          .json({ message: 'No Pet Available' })
+        return res.status(404).json({ message: "No Pet Available" });
 
-      res.status(200).json(pets)
+      res.status(200).json(pets);
     } catch (error) {
-      res.status(400).json({ message: error.message })
+      res.status(400).json({ message: error.message });
     }
   },
-}
+};
