@@ -38,6 +38,7 @@ module.exports = {
   },
   login: async (req, res) => {
     try {
+      console.log("[first]");
       const { password, email } = req.body;
       joiHelper(validateLogin, req.body);
 
