@@ -31,6 +31,7 @@ const petSchema = new Schema(
       default: "male",
     },
     status: { type: Boolean, default: false },
+    sold: { type: Boolean, default: true },
     diseaseId: { type: Schema.Types.ObjectId, ref: "diseases" },
   },
   {

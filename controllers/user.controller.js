@@ -99,7 +99,7 @@ module.exports = {
       req.body.picture = secure_url;
       req.body.postedBy = id;
 
-      Pet.create(req.body).then((response) => {
+      Pet.create({ ...req.body, sold: true }).then((response) => {
         response.populate(
           { path: "diseaseId", model: "diseases" },
           function (err, data) {
