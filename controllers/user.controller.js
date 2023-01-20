@@ -89,7 +89,7 @@ module.exports = {
   sellPet: async (req, res) => {
     try {
       joiHelper(validatePet, req.body);
-      const { id } = jwt.verify(req.query.token, JWT_SECRET);
+      const { id, ...rest } = jwt.verify(req.query.token, JWT_SECRET);
 
       if (!req?.file)
         return res.status(400).json({ message: "Please Upload Pet Image" });
@@ -102,16 +102,20 @@ module.exports = {
 
       Pet.create({ ...req.body, sold: true }).then((response) => {
         response.populate(
-          { path: "diseaseId", model: "diseases" },
+          [
+            { path: "diseaseId", model: "diseases" },
+            { path: "postedBy", model: "user" },
+          ],
           function (err, data) {
             if (err) {
               res.status(400).json({ message: err?.message });
             }
+            console.log("[data]", data);
             createNotification({
               userId: id,
               petId: data?._id,
               diseaseId: data?.diseaseId?._id,
-              message: `${req.body?.name?.toUpperCase()} added successfully`,
+              message: `${data?.postedBy?.username?.toUpperCase()} added ${req.body?.name?.toUpperCase()} successfully`,
             });
             res.status(201).json({ message: "Pet added successfully", data });
           }
