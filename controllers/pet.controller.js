@@ -3,7 +3,7 @@ const Pet = require("../models/pet.model");
 module.exports = {
   getPets: async (req, res) => {
     try {
-      const pets = await Pet.find({ status: false, sold: false })
+      const pets = await Pet.find({ sold: false })
         .sort({ createdAt: -1 })
         .populate([
           {

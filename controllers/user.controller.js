@@ -89,7 +89,7 @@ module.exports = {
   sellPet: async (req, res) => {
     try {
       joiHelper(validatePet, req.body);
-      const { id, ...rest } = jwt.verify(req.query.token, JWT_SECRET);
+      const { id } = jwt.verify(req.query.token, JWT_SECRET);
 
       if (!req?.file)
         return res.status(400).json({ message: "Please Upload Pet Image" });
@@ -100,7 +100,7 @@ module.exports = {
       req.body.picture = secure_url;
       req.body.postedBy = id;
 
-      Pet.create({ ...req.body, sold: true }).then((response) => {
+      Pet.create({ ...req.body, sold: false }).then((response) => {
         response.populate(
           [
             { path: "diseaseId", model: "diseases" },
